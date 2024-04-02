@@ -35,6 +35,7 @@ class SMSController extends Controller
         $msg_type = $request->input('msg_type', 1);
 
         $userVerified = $this->verifyUser($api_id, $api_password);
+        // return $userVerified;
         if ($userVerified) {
             $tenant_id = $userVerified->tenant_id;
             $sender_id = $userVerified->sender_id;
@@ -79,8 +80,6 @@ class SMSController extends Controller
                 'response' => json_encode($ooredoo_response),
                 'msg_type'=>$request->input('msg_type', 1),
                 'status'=>1,
-
-
             ]);
 
             if ($smsHistory) {
@@ -104,7 +103,7 @@ class SMSController extends Controller
 
     public function verifyUser($api_id, $api_password)
     {
-
+        // return $api_id;
         $tenantsmsgateway = TenantSmsGateway::where('api_id', $api_id)->first();
 
         if ($tenantsmsgateway && $tenantsmsgateway->api_password === $api_password) {

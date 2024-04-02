@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('question_statuses', function (Blueprint $table) {
             $table->id();
             $table->foreignId('question_id')->constrained();   
-            $table->foreignId('terminal_id')->constrained();             
+            $table->foreignId('terminal_status_id')->constrained();             
             $table->boolean('status')->default(true);
             $table->timestamps();
             $table->softDeletes();

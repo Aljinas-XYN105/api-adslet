@@ -29,11 +29,12 @@ function send_ooredoo_sms($sender_id, $phonenumber, $textmessage, $msg_type = 1)
     );
     $response = curlRequest($url, $data, $headers, 'GET');
     // Check for errors or handle the response
-    if (isset($response['error'])) {
-        echo "Error: " . $response['error'];
-    } else {
-        echo "Response: " . $response['response'];
-    }
+    // if (isset($response['error'])) {
+    //     echo "Error: " . $response['error'];
+    // } else {
+    //     echo "Response: " . $response['response'];
+    // }
+    return $response;
 }
 
 function curlRequest($url, $data = array(), $headers = array(), $method = 'GET') {
