@@ -13,8 +13,7 @@ class TenantSmsGateway extends Model
         'api_id',
         'api_password',
         'sender_id',
-        'phonenumber',
-        'textmessage',
+        
         'amount',
         'msg_type',
     ];
