@@ -12,10 +12,8 @@ class TenantSmsGateway extends Model
         'tenant_id',
         'api_id',
         'api_password',
-        'sender_id',
-        
+        'sender_id',        
         'amount',
-        'msg_type',
     ];
 
     public function tenant()

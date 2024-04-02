@@ -21,9 +21,16 @@ class SmsHistory extends JsonResource
             //'tenant_id' => $this->tenant_id,
             'msg_length' => $this->msg_length,
             'msg_count' => $this->msg_count, 
-            'msg_price' => $this->msg_price,         
+            'msg_price' => $this->msg_price,  
+            'msg_type' => $this->msg_type,
+            'phonenumber' => $this->phonenumber,
+            'textmessage' => $this->textmessage, 
+            'response' => $this->response, 
+            'status' => $this->status,           
             'created_at' => $this->created_at->format('m/d/Y'),
             'updated_at' => $this->updated_at->format('m/d/Y'),
         ];
     }
 }
+
+

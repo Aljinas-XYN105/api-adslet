@@ -18,6 +18,11 @@ return new class extends Migration
             $table->integer('msg_length');
             $table->decimal('msg_price', 10, 2);
             $table->integer('msg_count')->default(1);
+            $table->string('phonenumber');
+            $table->text('textmessage');
+            $table->text('response');
+            $table->integer('msg_type')->default(1);
+            $table->integer('status')->default(1);
             $table->timestamps();
         });
     }

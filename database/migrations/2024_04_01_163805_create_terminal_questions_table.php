@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tenant_sms_gateways', function (Blueprint $table) {
+        Schema::create('terminal_questions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('tenant_id')->constrained();
-            $table->string('api_id');
-            $table->string('api_password');
-            $table->string('sender_id');
-            $table->decimal('amount', 10, 2);
+            $table->foreignId('question_id')->constrained();
+            $table->foreignId('terminal_id')->constrained();
+            $table->boolean('status')->default(true);
+            $table->softDeletes(); 
             $table->timestamps();
+          
         });
     }
 
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tenant_sms_gateways');
+        Schema::dropIfExists('terminal_questions');
     }
 };

@@ -15,8 +15,18 @@ class SmsHistory extends Model
         'msg_length',
         'msg_count',
         'msg_price',
-    ];
+        'phonenumber',
+        'textmessage',
+        'response',
+        'msg_type',
+        'status',
 
+    ];
+   
+   
+    
+   
+   
     public function tenantSmsGateway()
     {
         return $this->belongsTo(TenantSmsGateway::class, 'tenantsms_id');

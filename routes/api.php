@@ -8,8 +8,8 @@ use App\Http\Controllers\API\TenantController;
 use App\Http\Controllers\API\BranchController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\QuestionController;
-use App\Http\Controllers\API\QuestionStatusController;
-use App\Http\Controllers\API\TerminalStatusController;
+use App\Http\Controllers\API\TerminalQuestionController;
+use App\Http\Controllers\API\TerminalController;
 use App\Http\Controllers\API\TenantSmsGatewayController;
 use App\Http\Controllers\API\SMSController;
 use App\Http\Controllers\API\SmsHistoryController;
@@ -40,8 +40,8 @@ Route::middleware('auth:sanctum')->group( function () {
     
 
 });
-Route::resource('questionstatus', QuestionStatusController::class);
-Route::resource('terminalstatus', TerminalStatusController::class);
+// Route::resource('questionstatus', QuestionStatusController::class);
+// Route::resource('terminalstatus', TerminalStatusController::class);
 Route::resource('questions', QuestionController::class);
 Route::resource('branches', BranchController::class);
 Route::resource('tenants', TenantController::class);
@@ -49,7 +49,8 @@ Route::resource('roles', RoleController::class);
 Route::resource('smshistory', SmsHistoryController::class);
 Route::resource('tenantsmsgateways', TenantSmsGatewayController::class);
 Route::resource('users', UserController::class);
-
+Route::resource('terminalquestions', TerminalQuestionController::class);
+Route::resource('terminals', TerminalController::class);
  
   
    

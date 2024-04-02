@@ -80,7 +80,6 @@ class SMSController extends Controller
                 'msg_type'=>request->input('msg_type', 1),
                 'status'=>1,
 
-
             ]);
 
             if ($smsHistory) {
