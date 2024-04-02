@@ -75,10 +75,11 @@ class SMSController extends Controller
                 'msg_count' => $msg_count,
                 'msg_price' => $total_msg_price,
                 'phonenumber'=> $request->input('phonenumber'),
-                'textmessage'=>$request->input('textmessage'),
-                'response'=>json_encode($ooredoo_response),
-                'msg_type'=>request->input('msg_type', 1),
+                'textmessage'=> $request->input('textmessage'),
+                'response' => json_encode($ooredoo_response),
+                'msg_type'=>$request->input('msg_type', 1),
                 'status'=>1,
+
 
             ]);
 

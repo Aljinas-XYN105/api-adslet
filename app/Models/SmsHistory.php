@@ -22,6 +22,12 @@ class SmsHistory extends Model
         'status',
 
     ];
+    protected $casts = [
+        'response' => 'json',
+    ];
+
+    
+
    
    
     

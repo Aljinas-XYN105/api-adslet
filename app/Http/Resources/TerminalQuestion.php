@@ -16,8 +16,9 @@ class TerminalQuestion extends JsonResource
     {
         return [
             'id' => $this->id,
-            'question_id' => $this->question_id,
+           // 'question_id' => $this->question_id,
            // 'terminal_id'=>$this->terminal_id,
+            'question_id' => $this->question->questions,
             'terminal_id' => $this->terminal->terminal_name,
             'status' => $this->status,
             'created_at' => $this->created_at,
