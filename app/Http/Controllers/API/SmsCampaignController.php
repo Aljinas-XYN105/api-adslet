@@ -22,12 +22,13 @@ class SmsCampaignController extends Controller
     {
         $input = $request->all();
         $validator = Validator::make($input, [
+            'smsgroup_id'=>'required',
             'name' => 'required',  
             'description' => 'required', 
             'message' => 'required',
             'phone_number' => 'required|numeric', 
             'start_date' => 'required',
-            'end_date' => 'required', 
+            'end_date' => 'required',
         ]);
         
         if ($validator->fails()) {
@@ -53,6 +54,7 @@ class SmsCampaignController extends Controller
         $input = $request->all();
    
         $validator = Validator::make($input, [
+            'smsgroup_id'=>'required',
             'name' => 'required',  
             'description' => 'required', 
             'message' => 'required',
@@ -64,13 +66,13 @@ class SmsCampaignController extends Controller
         if ($validator->fails()) {
             return $this->error('Validation Error.', 422, $validator->errors());
         }
-        $smscampaign->tenant_id = $input['tenant_id'];
+        $smscampaign->smsgroup_id = $input['smsgroup_id'];
         $smscampaign->name = $input['name'];       
-        $smscampaign->email = $input['email'];
-        $smscampaign->no_of_terminals = $input['no_of_terminals'];
-        $smscampaign->address = $input['address'];
-        $smscampaign->location = $input['location'];
+        $smscampaign->description = $input['description'];
+        $smscampaign->message = $input['message'];
         $smscampaign->phone_number = $input['phone_number'];
+        $smscampaign->start_date = $input['start_date'];
+        $smscampaign->end_date = $input['end_date'];
         $smscampaign->save();
    
         return $this->success($smscampaign, "SmsCampaign updated successfully.", 200);

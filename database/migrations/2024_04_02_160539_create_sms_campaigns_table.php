@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('sms_campaigns', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('smsgroup_id')->constrained();
             $table->string('name');
             $table->text('description')->nullable();  
             $table->text('message')->nullable();           

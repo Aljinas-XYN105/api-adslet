@@ -17,6 +17,8 @@ class SmsCampaign extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            //'smsgroup_id' => $this->smsgroup_id,
+            'smsgroup_id' => $this->smsgroup->name ?? null, 
             'description' => $this->description, 
             'message' => $this->message, 
             'phone_number'=>$this->phone_number, 
