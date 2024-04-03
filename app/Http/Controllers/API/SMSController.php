@@ -18,6 +18,7 @@ class SMSController extends Controller
     public function sendsms(Request $request)
     {
         $validator = Validator::make($request->all(), [
+            'sender_id' => 'required',
             'api_id' => 'required',
             'api_password' => 'required',
             'phonenumber' => 'required|numeric|digits_between:8,15',
@@ -28,6 +29,7 @@ class SMSController extends Controller
         if ($validator->fails()) {
             return $this->error('Validation Error', 422, $validator->errors());
         }
+        $sender_id = $request->input('sender_id');
         $api_id = $request->input('api_id');
         $api_password = $request->input('api_password');
         $phonenumber = $request->input('phonenumber');
@@ -38,9 +40,7 @@ class SMSController extends Controller
         // return $userVerified;
         if ($userVerified) {
             $tenant_id = $userVerified->tenant_id;
-            $sender_id = $userVerified->sender_id;
             $amount = $userVerified->amount;
-
 
             $tenantSmsGateway = TenantSmsGateway::where('tenant_id', $tenant_id)->first();
 
@@ -90,20 +90,10 @@ class SMSController extends Controller
         } else {
             return $this->error('Invalid API credentials.', 401);
         }
-
-        // if ($userVerified) {
-
-        //     send_ooredoo_sms($sender_id, $phonenumber, $textmessage, $msg_type);
-        //     return $this->success("SMS sent successfully.", 200);
-        // } else {
-
-        //     return $this->error('Invalid API credentials.', 401);
-        // }
     }
 
     public function verifyUser($api_id, $api_password)
     {
-        // return $api_id;
         $tenantsmsgateway = TenantSmsGateway::where('api_id', $api_id)->first();
 
         if ($tenantsmsgateway && $tenantsmsgateway->api_password === $api_password) {

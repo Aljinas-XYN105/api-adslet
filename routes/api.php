@@ -14,6 +14,7 @@ use App\Http\Controllers\API\TenantSmsGatewayController;
 use App\Http\Controllers\API\SMSController;
 use App\Http\Controllers\API\SmsHistoryController;
 use App\Http\Controllers\API\SmsCampaignController;
+use App\Http\Controllers\API\SmsGroupController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,6 +54,7 @@ Route::resource('users', UserController::class);
 Route::resource('terminalquestions', TerminalQuestionController::class);
 Route::resource('terminals', TerminalController::class);
 Route::resource('smscampaigns', SmsCampaignController::class);
+Route::resource('smsgroups', SmsGroupController::class);
  
   
    
