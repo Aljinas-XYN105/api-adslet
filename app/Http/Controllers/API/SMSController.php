@@ -67,7 +67,7 @@ class SMSController extends Controller
             $tenant->update(['wallet' => $newWalletBalance]);
 
             // Assuming `send_ooredoo_sms` is a custom function.
-           $ooredoo_response = send_ooredoo_sms($sender_id, $phonenumber, $textmessage, $msg_type);
+            $ooredoo_response = send_ooredoo_sms($sender_id, $phonenumber, $textmessage, $msg_type);
 
             $smsHistory = SmsHistory::create([
                 'tenantsms_id' => $tenantSmsGateway->id,
@@ -75,11 +75,11 @@ class SMSController extends Controller
                 'msg_length' => strlen($textmessage),
                 'msg_count' => $msg_count,
                 'msg_price' => $total_msg_price,
-                'phonenumber'=> $request->input('phonenumber'),
-                'textmessage'=> $request->input('textmessage'),
+                'phonenumber' => $request->input('phonenumber'),
+                'textmessage' => $request->input('textmessage'),
                 'response' => json_encode($ooredoo_response),
-                'msg_type'=>$request->input('msg_type', 1),
-                'status'=>1,
+                'msg_type' => $request->input('msg_type', 1),
+                'status' => 1,
             ]);
 
             if ($smsHistory) {
