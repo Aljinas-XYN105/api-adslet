@@ -27,13 +27,14 @@ use App\Http\Controllers\API\SmsGroupController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
 
 Route::post('login', [AuthController::class, 'signin']);
 Route::post('register', [AuthController::class, 'signup']);
 Route::post('/send-sms', [SMSController::class, 'sendsms']);
+
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
+});
 
 Route::middleware('auth:sanctum')->group( function () {
     Route::post('verify_token', [AuthController::class, 'verifyToken']);
