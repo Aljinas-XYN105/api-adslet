@@ -39,7 +39,7 @@ class SmsGroupController extends Controller
     {
         $smsgroup = SmsGroup::find($id);
         if (is_null($smsgroup)) {
-            return $this->error('Role not found.', 404);
+            return $this->error('SmsGroup not found.', 404);
         }
         return $this->success(new SmsGroupResource($smsgroup), 'SmsGroup fetched successfully.');
     }
@@ -60,12 +60,12 @@ class SmsGroupController extends Controller
         $smsgroup->name = $input['name'];
         $smsgroup->save();
    
-        return $this->success($role, "SmsGroup updated successfully.", 200);
+        return $this->success($smsgroup, "SmsGroup updated successfully.", 200);
     }
    
     public function destroy(SmsGroup $smsgroup)
     {
         $smsgroup->delete();
-        return $this->success([], 'Role deleted.');
+        return $this->success([], 'SmsGroup deleted.');
     }
 }

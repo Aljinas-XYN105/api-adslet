@@ -15,7 +15,7 @@ use App\Http\Controllers\API\SMSController;
 use App\Http\Controllers\API\SmsHistoryController;
 use App\Http\Controllers\API\SmsCampaignController;
 use App\Http\Controllers\API\SmsGroupController;
-
+use App\Http\Controllers\API\SmsContactController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -39,8 +39,21 @@ Route::middleware('auth:sanctum')->group( function () {
     Route::post('verify_token', [AuthController::class, 'verifyToken']);
 
     // Resouse API's
+//     Route::resource('questions', QuestionController::class);
+// Route::resource('branches', BranchController::class);
+// Route::resource('tenants', TenantController::class);
+// Route::resource('roles', RoleController::class);
+// Route::resource('smshistory', SmsHistoryController::class);
+// Route::resource('tenantsmsgateways', TenantSmsGatewayController::class);
+// Route::resource('users', UserController::class);
+// Route::resource('terminalquestions', TerminalQuestionController::class);
+// Route::resource('terminals', TerminalController::class);
+// Route::resource('smscampaigns', SmsCampaignController::class);
+// //Route::resource('smscampaigns', SmsCampaignController::class);
+// Route::resource('smsgroups', SmsGroupController::class);
    
 });
+
 
 Route::resource('questions', QuestionController::class);
 Route::resource('branches', BranchController::class);
@@ -52,5 +65,5 @@ Route::resource('users', UserController::class);
 Route::resource('terminalquestions', TerminalQuestionController::class);
 Route::resource('terminals', TerminalController::class);
 Route::resource('smscampaigns', SmsCampaignController::class);
-Route::resource('smscampaigns', SmsCampaignController::class);
+Route::resource('smscontacts', SmsContactController::class);
 Route::resource('smsgroups', SmsGroupController::class);
