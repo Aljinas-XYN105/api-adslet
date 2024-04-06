@@ -50,8 +50,11 @@ class TenantController extends Controller
             'api_key' => $input['api_key'],
             'api_password' => $input['api_password'],
             'email' => $input['email'],
+            'phone_number' => $input['phone_number'],
             'address1' => $input['address1'],
+            'address2' => $input['address2'],
             'wallet' => $input['wallet'],
+            'sms_amount' => $input['sms_amount'],
         ]);
         return $this->success(new TenantResource($tenant), 'Tenant created successfully.', 200);
     }
@@ -91,8 +94,10 @@ class TenantController extends Controller
         $tenant->name = $input['name'];
         $tenant->email = $input['email'];
         $tenant->address1 = $input['address1'];
+        $tenant->address2 = $input['address2'];
         $tenant->phone_number = $input['phone_number'];
         $tenant->wallet = $input['wallet'];
+        $tenant->sms_amount = $input['sms_amount'];
         $tenant->save();
 
         // Generate new API key and password
