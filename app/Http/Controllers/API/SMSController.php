@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\SmsHistory;
 use App\Models\Tenant;
+use App\Models\TenantCenterID;
 use App\Models\TenantSmsGateway;
 use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
@@ -66,6 +67,12 @@ class SMSController extends Controller
 
             $tenant->update(['wallet' => $newWalletBalance]);
 
+            $validTenantsenderId = $this->checkSenderMapping($tenant_id, $sender_id);
+
+            if (!$validTenantsenderId) {
+                return $this->error('Invalid sender_id.', 400);
+            }
+
             // Assuming `send_ooredoo_sms` is a custom function.
             $ooredoo_response = send_ooredoo_sms($sender_id, $phonenumber, $textmessage, $msg_type);
 
@@ -83,6 +90,10 @@ class SMSController extends Controller
             ]);
 
             if ($smsHistory) {
+                TenantCenterID::create([
+                    'tenant_id' => $tenant_id,
+                    'sender_id' => $sender_id,
+                ]);
                 return $this->success("SMS sent successfully.", 200);
             } else {
                 return $this->error('Failed to save SMS history.', 500);
@@ -102,4 +113,12 @@ class SMSController extends Controller
             return false;
         }
     }
+    public function checkSenderMapping($tenant_id, $sender_id)
+{
+   
+    $mapping = TenantCenterID::where('tenant_id', $tenant_id)
+                           ->where('sender_id', $sender_id)
+                           ->first();
+    return $mapping !== null;
+}
 }

@@ -14,6 +14,8 @@ class Question extends JsonResource
      */
     public function toArray(Request $request): array
     {
+
+        $answerType = $this->answer_type == 1 ? 'Star Rating' : ($this->answer_type == 2 ? 'Numeric Rating' : 'Unknown');
         //return parent::toArray($request);
         return [
             'id' => $this->id,
@@ -22,7 +24,7 @@ class Question extends JsonResource
             'branch_id' => $this->branch->name,
             'tenant_id' => $this->tenant->name,
             'questions'=>$this->questions,
-            'answer_type'=>$this->answer_type,
+            'answer_type'=>$answerType,
             'is_active' => $this->is_active,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

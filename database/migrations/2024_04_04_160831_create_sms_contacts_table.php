@@ -11,17 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sms_campaigns', function (Blueprint $table) {
+        Schema::create('sms_contacts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('smsgroup_id')->constrained();
             $table->string('name');
-            $table->text('description')->nullable();  
-            $table->text('message')->nullable();           
+            $table->unsignedBigInteger('smsgroup_id');
             $table->text('phone_number')->nullable();
-            $table->date('start_date')->nullable();
-            $table->date('end_date')->nullable();
             $table->timestamps();
+
+            $table->foreign('smsgroup_id')
+                  ->references('id')
+                  ->on('sms_groups')
+                  ->onDelete('cascade');
         });
+        
     }
 
     /**
@@ -29,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sms_campaigns');
+        Schema::dropIfExists('sms_contacts');
     }
 };

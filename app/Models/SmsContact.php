@@ -5,21 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SmsCampaign extends Model
+class SmsContact extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'name',
-        'smsgroup_id',
-        'description',
-        'message',
+        'smsgroup_id',       
         'phone_number',
-        'start_date',
-        'end_date',
-       ];
-
-       protected $casts = [
-        'phone_number' => 'array',
+       
        ];
 
        public function smsgroup()
@@ -27,3 +21,4 @@ class SmsCampaign extends Model
             return $this->belongsTo(SmsGroup::class);
         }
 }
+
