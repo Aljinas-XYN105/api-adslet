@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('role_id')->constrained();
-            $table->foreignId('branch_id')->constrained();
-            $table->foreignId('tenant_id')->constrained();
+            $table->foreignId('role_id')->default('1');
+            $table->foreignId('branch_id')->nullable()->constrained();
+            $table->foreignId('tenant_id')->nullable()->constrained();
             $table->string('name');
             $table->string('email')->unique();
             $table->string('mobile_no')->nullable();

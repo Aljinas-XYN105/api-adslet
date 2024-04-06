@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('sms_campaigns', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('smsgroup_id')->constrained();
             $table->string('name');
             $table->text('description')->nullable();  
-            $table->text('message')->nullable();           
-            $table->text('phone_number')->nullable();
+            $table->text('message')->nullable(); 
+            $table->boolean('type')->default('0');
             $table->date('start_date')->nullable();
-            $table->date('end_date')->nullable();
+            $table->time('start_time')->nullable(); 
+            $table->tinyInteger('status')->comment('0 - Not Started, 1 - Running, 2 - Paused, 3 - Cancelled, 4 - Finished');
             $table->timestamps();
         });
     }
