@@ -24,11 +24,11 @@ class TenantController extends Controller
     {
         $input = $request->all();
 
-        $apiKey = $this->generateApiKey($input['name']);
+        $api_id = $this->generateApiKey($input['name']);
         $apiPassword = $this->generateApiPassword();
 
         // Add API key and password to input data
-        $input['api_key'] = $apiKey;
+        $input['api_id'] = $api_id;
         $input['api_password'] = $apiPassword;
 
 
@@ -43,10 +43,11 @@ class TenantController extends Controller
         if ($validator->fails()) {
             return $this->error('Validation Error', 422, $validator->errors());
         }
-
+        $slug = preg_replace('/[^a-z0-9-]+/', '_', strtolower(trim($input['name'])));
         $tenant = Tenant::create([
             'name' => $input['name'],
-            'api_key' => $input['api_key'],
+            'slug' => $slug,
+            'api_id' => $input['api_id'],
             'api_password' => $input['api_password'],
             'email' => $input['email'],
             'address1' => $input['address1'],
@@ -95,11 +96,11 @@ class TenantController extends Controller
         $tenant->save();
 
         // Generate new API key and password
-        // $apiKey = $this->generateApiKey($input['name']);
+        // $api_id = $this->generateApiKey($input['name']);
         // $apiPassword = $this->generateApiPassword();
 
         // Assign API key and password to input data
-        // $tenant->api_key = $apiKey;
+        // $tenant->api_id = $api_id;
         // $tenant->api_password = $apiPassword;
         // $tenant->save();
 
@@ -133,11 +134,11 @@ class TenantController extends Controller
     //     $tenant->save();
 
     //     //  // Generate new API key and password
-    //     // $apiKey = $this->generateApiKey($input['name']);
+    //     // $api_id = $this->generateApiKey($input['name']);
     //     // $apiPassword = $this->generateApiPassword();
 
     //     // // Assign API key and password to input data
-    //     // $tenant->api_key = $apiKey;
+    //     // $tenant->api_id = $api_id;
     //     // $tenant->api_password = $apiPassword;
     //     // $tenant->save();
 
@@ -160,9 +161,9 @@ class TenantController extends Controller
 
         $timestamp = date('YmdHis');
 
-        $apiKey = $nameAbbreviation . '_' . $timestamp;
+        $api_id = $nameAbbreviation . '_' . $timestamp;
 
-        return $apiKey;
+        return $api_id;
     }
 
 

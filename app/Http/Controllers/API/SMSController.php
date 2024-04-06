@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\SmsHistory;
 use App\Models\Tenant;
 use App\Models\TenantSenderID;
-use App\Models\TenantSmsGateway;
 use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -40,14 +39,8 @@ class SMSController extends Controller
         $userVerified = $this->verifyUser($api_id, $api_password);
         // return $userVerified;
         if ($userVerified) {
-            $tenant_id = $userVerified->tenant_id;
-            $amount = $userVerified->amount;
-
-            $tenantSmsGateway = TenantSmsGateway::where('tenant_id', $tenant_id)->first();
-
-            if (!$tenantSmsGateway) {
-                return $this->error('Tenant SMS gateway not found.', 404);
-            }
+            $tenant_id = $userVerified->id;
+            $amount = $userVerified->sms_amount;
 
             $msg_count = strlen($textmessage) > 160 ? 2 : 1;
             $total_msg_price = $msg_count * $amount;
@@ -77,7 +70,6 @@ class SMSController extends Controller
             $ooredoo_response = send_ooredoo_sms($sender_id, $phonenumber, $textmessage, $msg_type);
 
             $smsHistory = SmsHistory::create([
-                'tenantsms_id' => $tenantSmsGateway->id,
                 'tenant_id' => $tenant_id,
                 'msg_length' => strlen($textmessage),
                 'msg_count' => $msg_count,
@@ -107,10 +99,10 @@ class SMSController extends Controller
 
     public function verifyUser($api_id, $api_password)
     {
-        $tenantsmsgateway = TenantSmsGateway::where('api_id', $api_id)->first();
+        $tenant = Tenant::where('api_id', $api_id)->first();
 
-        if ($tenantsmsgateway && $tenantsmsgateway->api_password === $api_password) {
-            return $tenantsmsgateway;
+        if ($tenant && $tenant->api_password === $api_password) {
+            return $tenant;
         } else {
             return false;
         }

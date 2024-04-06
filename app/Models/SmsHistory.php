@@ -10,7 +10,6 @@ class SmsHistory extends Model
     use HasFactory;
 
     protected $fillable = [
-        'tenantsms_id',
         'tenant_id',
         'msg_length',
         'msg_count',
@@ -27,18 +26,6 @@ class SmsHistory extends Model
     protected $casts = [
         'response' => 'json',
     ];
-
-    
-
-   
-   
-    
-   
-   
-    public function tenantSmsGateway()
-    {
-        return $this->belongsTo(TenantSmsGateway::class, 'tenantsms_id');
-    }
 
     public function tenant()
     {
