@@ -20,6 +20,8 @@ class SmsHistory extends Model
         'response',
         'msg_type',
         'status',
+        'sender_id',
+        'tenant_sms_price'
 
     ];
     protected $casts = [

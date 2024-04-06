@@ -87,6 +87,8 @@ class SMSController extends Controller
                 'response' => json_encode($ooredoo_response),
                 'msg_type' => $request->input('msg_type', 1),
                 'status' => 1,
+                'sender_id' => $sender_id,
+                'tenant_sms_price' => $amount
             ]);
 
             if ($smsHistory) {
@@ -114,11 +116,11 @@ class SMSController extends Controller
         }
     }
     public function checkSenderMapping($tenant_id, $sender_id)
-{
-   
-    $mapping = TenantCenterID::where('tenant_id', $tenant_id)
-                           ->where('sender_id', $sender_id)
-                           ->first();
-    return $mapping !== null;
-}
+    {
+
+        $mapping = TenantCenterID::where('tenant_id', $tenant_id)
+            ->where('sender_id', $sender_id)
+            ->first();
+        return $mapping !== null;
+    }
 }

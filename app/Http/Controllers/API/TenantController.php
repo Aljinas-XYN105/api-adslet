@@ -17,7 +17,7 @@ class TenantController extends Controller
     public function index()
     {
         $tenants = Tenant::all();
-        return $this->success(TenantResource::collection($tenants), 'Tenant fetched successfully.');
+        return $this->success($tenants, 'Tenant fetched successfully.');
     }
     
     public function store(Request $request)
