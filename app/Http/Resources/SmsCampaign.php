@@ -7,6 +7,8 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class SmsCampaign extends JsonResource
 {
+
+    
     /**
      * Transform the resource into an array.
      *
@@ -21,7 +23,7 @@ class SmsCampaign extends JsonResource
             'smsgroup_id' => $this->smsgroup->name ?? null, 
             'description' => $this->description, 
             'message' => $this->message, 
-            'phone_number'=>$this->phone_number, 
+            'phone_number' => is_array($this->phone_number) ? $this->phone_number : json_decode($this->phone_number),
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,                          
             'created_at' => $this->created_at->format('m/d/Y'),

@@ -18,6 +18,10 @@ class SmsCampaign extends Model
         'end_date',
        ];
 
+       protected $casts = [
+        'phone_number' => 'array',
+       ];
+
        public function smsgroup()
         {
             return $this->belongsTo(SmsGroup::class);
