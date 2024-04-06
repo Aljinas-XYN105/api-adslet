@@ -10,14 +10,14 @@ class SmsCampaign extends Model
     use HasFactory;
     protected $fillable = [
         'name',
-        'smsgroup_id',
         'description',
         'message',
-        'phone_number',
+        'type',
         'start_date',
-        'end_date',
+        'start_time',
+        'status'
        ];
-
+    
        protected $casts = [
         'phone_number' => 'array',
        ];
