@@ -5,15 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TenantSmsGateway extends Model
+class TenantSenderID extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'tenant_id',
-        'api_id',
-        'api_password',      
-        'amount',
-    ];
+    protected $table = 'tenant_sender_i_d_s';
+    protected $fillable = ['tenant_id', 'sender_id'];
 
     public function tenant()
     {

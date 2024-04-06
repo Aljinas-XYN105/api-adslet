@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\SmsHistory;
 use App\Models\Tenant;
-use App\Models\TenantCenterID;
+use App\Models\TenantSenderID;
 use App\Models\TenantSmsGateway;
 use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
@@ -88,11 +88,11 @@ class SMSController extends Controller
                 'msg_type' => $request->input('msg_type', 1),
                 'status' => 1,
                 'sender_id' => $sender_id,
-                'tenant_sms_price' => $amount
+                'tenant_sms_price' => $amount,
             ]);
 
             if ($smsHistory) {
-                TenantCenterID::create([
+                TenantSenderID::create([
                     'tenant_id' => $tenant_id,
                     'sender_id' => $sender_id,
                 ]);
@@ -118,7 +118,7 @@ class SMSController extends Controller
     public function checkSenderMapping($tenant_id, $sender_id)
     {
 
-        $mapping = TenantCenterID::where('tenant_id', $tenant_id)
+        $mapping = TenantSenderID::where('tenant_id', $tenant_id)
             ->where('sender_id', $sender_id)
             ->first();
         return $mapping !== null;

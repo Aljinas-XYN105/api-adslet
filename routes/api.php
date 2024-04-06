@@ -16,6 +16,7 @@ use App\Http\Controllers\API\SmsHistoryController;
 use App\Http\Controllers\API\SmsCampaignController;
 use App\Http\Controllers\API\SmsGroupController;
 use App\Http\Controllers\API\SmsContactController;
+use App\Http\Controllers\API\TenantSenderIDController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -68,3 +69,4 @@ Route::resource('terminals', TerminalController::class);
 Route::resource('smscampaigns', SmsCampaignController::class);
 Route::resource('smscontacts', SmsContactController::class);
 Route::resource('smsgroups', SmsGroupController::class);
+Route::resource('tenantsenderids', TenantSenderIDController::class);

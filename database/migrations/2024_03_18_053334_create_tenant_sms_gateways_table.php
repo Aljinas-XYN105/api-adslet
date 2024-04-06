@@ -16,7 +16,6 @@ return new class extends Migration
             $table->foreignId('tenant_id')->constrained();
             $table->string('api_id');
             $table->string('api_password');
-            $table->string('sender_id');
             $table->decimal('amount', 10, 2);
             $table->timestamps();
         });

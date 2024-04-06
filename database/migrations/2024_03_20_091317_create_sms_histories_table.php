@@ -21,6 +21,8 @@ return new class extends Migration
             $table->string('phonenumber');
             $table->text('textmessage');
             $table->text('response');
+            $table->string('sender_id');
+            $table->decimal('tenant_sms_price', 10, 2);
             $table->integer('msg_type')->default(1);
             $table->integer('status')->default(1);
             $table->timestamps();
