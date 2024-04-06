@@ -14,15 +14,16 @@ return new class extends Migration
         Schema::create('tenants', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-           // $table->string('slug')->unique();
+            $table->string('slug')->unique();
             $table->string('api_key')->unique();
-            $table->string('api_password')->unique(); 
+            $table->string('api_password')->unique();
             $table->string('email')->unique();
             $table->integer('no_of_terminals')->nullable();
-            $table->text('address1')->nullable();  
-            $table->text('address2')->nullable();           
+            $table->text('address1')->nullable();
+            $table->text('address2')->nullable();
             $table->string('phone_number')->nullable();
-            $table->decimal('wallet', 10, 2)->default(0.00);
+            $table->decimal('wallet', 10, 3)->default(0.000);
+            $table->decimal('sms_amount', 10, 3)->default(0.000);
             $table->timestamps();
         });
     }

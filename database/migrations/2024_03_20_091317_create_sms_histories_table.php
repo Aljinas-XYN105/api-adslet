@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('sms_histories', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('tenantsms_id')->constrained('tenant_sms_gateways');
             $table->foreignId('tenant_id')->constrained('tenants'); 
             $table->integer('msg_length');
             $table->decimal('msg_price', 10, 2);

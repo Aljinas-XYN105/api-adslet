@@ -10,18 +10,18 @@ class Tenant extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 
-        //'slug',
+        'name',
+        'slug',
         'api_key',
         'api_password',
-       // 'no_of_terminals',
         'address1',
         'address2',
         'email',
         'phone_number',
         'wallet',
+        'sms_amount'
     ];
-   
+
 
     public function branches()
     {
@@ -31,23 +31,12 @@ class Tenant extends Model
     static public function getSingle($id)
     {
         return Tenant::find($id);
-      
     }
 
     static public function getTenant()
     {
         return Tenant::select('tenants.*')
-        ->orderBy('id','desc')
-        ->get();
-    }
-
-    public function smsGateways()
-    {
-        return $this->hasMany(TenantSmsGateway::class);
-    }
-
-    public function tenantSmsGateway()
-    {
-        return $this->hasOne(TenantSmsGateway::class);
+            ->orderBy('id', 'desc')
+            ->get();
     }
 }

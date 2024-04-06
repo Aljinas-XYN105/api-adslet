@@ -43,9 +43,10 @@ class TenantController extends Controller
         if ($validator->fails()) {
             return $this->error('Validation Error', 422, $validator->errors());
         }
-
+        $slug = preg_replace('/[^a-z0-9-]+/', '_', strtolower(trim($input['name'])));
         $tenant = Tenant::create([
             'name' => $input['name'],
+            'slug' => $slug,
             'api_key' => $input['api_key'],
             'api_password' => $input['api_password'],
             'email' => $input['email'],
