@@ -92,10 +92,10 @@ class SMSController extends Controller
             ]);
 
             if ($smsHistory) {
-                TenantSenderID::create([
-                    'tenant_id' => $tenant_id,
-                    'sender_id' => $sender_id,
-                ]);
+                // TenantSenderID::create([
+                //     'tenant_id' => $tenant_id,
+                //     'sender_id' => $sender_id,
+                // ]);
                 return $this->success("SMS sent successfully.", 200);
             } else {
                 return $this->error('Failed to save SMS history.', 500);
