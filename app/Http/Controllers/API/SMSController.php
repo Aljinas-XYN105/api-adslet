@@ -19,7 +19,7 @@ class SMSController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'sender_id' => 'required',
-            'api_id' => 'required',
+            'api_key' => 'required',
             'api_password' => 'required',
             'phonenumber' => 'required|numeric|digits_between:8,15',
             'textmessage' => 'required|string',
@@ -30,13 +30,13 @@ class SMSController extends Controller
             return $this->error('Validation Error', 422, $validator->errors());
         }
         $sender_id = $request->input('sender_id');
-        $api_id = $request->input('api_id');
+        $api_key = $request->input('api_key');
         $api_password = $request->input('api_password');
         $phonenumber = $request->input('phonenumber');
         $textmessage = $request->input('textmessage');
         $msg_type = $request->input('msg_type', 1);
 
-        $userVerified = $this->verifyUser($api_id, $api_password);
+        $userVerified = $this->verifyUser($api_key, $api_password);
         // return $userVerified;
         if ($userVerified) {
             $tenant_id = $userVerified->id;
@@ -97,9 +97,9 @@ class SMSController extends Controller
         }
     }
 
-    public function verifyUser($api_id, $api_password)
+    public function verifyUser($api_key, $api_password)
     {
-        $tenant = Tenant::where('api_id', $api_id)->first();
+        $tenant = Tenant::where('api_key', $api_key)->first();
 
         if ($tenant && $tenant->api_password === $api_password) {
             return $tenant;

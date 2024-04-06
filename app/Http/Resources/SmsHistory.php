@@ -16,7 +16,6 @@ class SmsHistory extends JsonResource
     {
         return [
             'id' => $this->id,
-            'tenantsms_id' => $this->tenantsms_id,
             'tenant_id' => $this->tenant->name,
             //'tenant_id' => $this->tenant_id,
             'msg_length' => $this->msg_length,
