@@ -11,7 +11,8 @@ class TenantSmsGateway extends Model
     protected $fillable = [
         'tenant_id',
         'api_id',
-        'api_password',      
+        'api_password',
+        //'sender_id',        
         'amount',
     ];
 

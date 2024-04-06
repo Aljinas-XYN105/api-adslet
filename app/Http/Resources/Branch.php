@@ -20,7 +20,7 @@ class Branch extends JsonResource
             'tenant_id' => $this->tenant->name,
             'name' => $this->name,
             'email' => $this->email,
-            'no_of_terminals' => $this->no_of_terminals,
+            //'no_of_terminals' => $this->no_of_terminals,
             'location' => $this->location,  
             'address' => $this->address,
             'phone_number'=>$this->phone_number,

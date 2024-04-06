@@ -13,7 +13,7 @@ class Branch extends Model
         'tenant_id',
         'name',
         'email', 
-        'no_of_terminals',
+        //'no_of_terminals',
         'location', 
         'address', 
         'phone_number'

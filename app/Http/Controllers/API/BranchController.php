@@ -27,7 +27,7 @@ class BranchController extends Controller
             'tenant_id' => 'required',
             'name' => 'required',  
             'email' => 'required|email|unique:tenants', 
-            'no_of_terminals' => 'required|integer|min:1',
+            //'no_of_terminals' => 'required|integer|min:1',
             'location' => 'required',
             'address' => 'required',
             'phone_number' => 'required|numeric', 
@@ -59,7 +59,7 @@ class BranchController extends Controller
             'tenant_id' => 'required',
             'name' => 'required',  
             'email' => 'required|email|unique:tenants', 
-            'no_of_terminals' => 'required|integer|min:1',
+           // 'no_of_terminals' => 'required|integer|min:1',
             'location' => 'required',
             'address' => 'required',
             'phone_number' => 'required|numeric', 
@@ -71,7 +71,7 @@ class BranchController extends Controller
         $branch->tenant_id = $input['tenant_id'];
         $branch->name = $input['name'];       
         $branch->email = $input['email'];
-        $branch->no_of_terminals = $input['no_of_terminals'];
+        //$branch->no_of_terminals = $input['no_of_terminals'];
         $branch->address = $input['address'];
         $branch->location = $input['location'];
         $branch->phone_number = $input['phone_number'];

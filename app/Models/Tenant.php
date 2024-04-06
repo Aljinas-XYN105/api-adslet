@@ -11,10 +11,10 @@ class Tenant extends Model
 
     protected $fillable = [
         'name', 
-        'slug',
+        //'slug',
         'api_key',
         'api_password',
-        'no_of_terminals',
+       // 'no_of_terminals',
         'address1',
         'address2',
         'email',

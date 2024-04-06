@@ -70,11 +70,8 @@ class TenantController extends Controller
 
         $validator = Validator::make($input, [
             'name' => 'required',
-            'slug' => 'required|unique:tenants,slug,' . $id,
-            'email' => 'required|email|unique:tenants,email,' . $id,
-            'no_of_terminals' => 'required|integer|min:1',
+            'email' => 'required|email|unique:tenants',
             'address1' => 'required',
-            'address2' => 'required',
             'phone_number' => 'required|numeric',
             'wallet' => 'required|numeric',
         ]);
@@ -91,12 +88,8 @@ class TenantController extends Controller
 
         // Update tenant data
         $tenant->name = $input['name'];
-        $tenant->slug = $input['slug'];
         $tenant->email = $input['email'];
-        $tenant->no_of_terminals = $input['no_of_terminals'];
         $tenant->address1 = $input['address1'];
-        $tenant->address2 = $input['address2'];
-
         $tenant->phone_number = $input['phone_number'];
         $tenant->wallet = $input['wallet'];
         $tenant->save();
