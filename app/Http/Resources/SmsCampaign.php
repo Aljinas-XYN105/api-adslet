@@ -25,7 +25,8 @@ class SmsCampaign extends JsonResource
             'type' => $this->type,
             'start_date' => $this->start_date,          
             'start_time' => $this->start_time, 
-            'status' =>$this->status,                       
+            'status' =>$this->status,  
+            'queue_status' => $this->queue_status,                     
             'created_at' => $this->created_at->format('m/d/Y'),
             'updated_at' => $this->updated_at->format('m/d/Y'),
         ];

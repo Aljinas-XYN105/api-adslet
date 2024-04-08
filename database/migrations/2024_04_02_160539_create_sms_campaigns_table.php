@@ -20,6 +20,7 @@ return new class extends Migration
             $table->date('start_date')->nullable();
             $table->time('start_time')->nullable(); 
             $table->tinyInteger('status')->comment('0 - Not Started, 1 - Running, 2 - Paused, 3 - Cancelled, 4 - Finished');
+            $table->string('queue_status')->nullable();
             $table->timestamps();
         });
     }
