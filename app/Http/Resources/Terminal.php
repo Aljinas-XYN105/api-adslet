@@ -14,16 +14,24 @@ class Terminal extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        //return parent::toArray($request);
         return [
             'id' => $this->id,
-            //'branch_id' => $this->branch_id,
-             'branch_id' => $this->branch->name,
-            'terminal_name' => $this->terminal_name,
-            'terminal_code' => $this->terminal_code,
-            'status' => $this->status,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-            'deleted_at'=> $this->deleted_at,
+            'name' => $this->name,
+            'feedback_group_id' => $this->feedback_group_id,
+            'background_image'=>$this->background_image, 
+            'terminal_logo' => $this->terminal_logo,
+            'success_message' => $this->success_message,
+            'phone_number_required'=>$this->phone_number_required,   
+            'feedback_group_id' => $this->feedback_group_id,
+            'email_required'=>$this->email_required, 
+            'sms_sender_id' => $this->sms_sender_id,
+            'notification_settings' => $this->notification_settings,
+            'customer_notification'=>$this->customer_notification,                         
+            'created_at' => $this->created_at->format('m/d/Y'),
+            'updated_at' => $this->updated_at->format('m/d/Y'),
         ];
+       
+        
     }
 }

@@ -13,17 +13,12 @@ return new class extends Migration
     {
         Schema::create('sms_contacts', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->unsignedBigInteger('smsgroup_id');
+            $table->string('first_name');
+            $table->string('last_name')->nullable();
+            $table->foreignId('smsgroup_id')->constrained('sms_groups'); 
             $table->text('phone_number')->nullable();
             $table->timestamps();
-
-            $table->foreign('smsgroup_id')
-                  ->references('id')
-                  ->on('sms_groups')
-                  ->onDelete('cascade');
         });
-        
     }
 
     /**

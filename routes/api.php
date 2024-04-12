@@ -17,6 +17,10 @@ use App\Http\Controllers\API\SmsGroupController;
 use App\Http\Controllers\API\SmsContactController;
 use App\Http\Controllers\API\TenantSenderIDController;
 use App\Http\Controllers\API\SmsCampignContactController;
+use App\Http\Controllers\API\FeedbackGroupController;
+use App\Http\Controllers\API\FeedbackQuestionController;
+use App\Http\Controllers\API\FeedbackReportController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -69,3 +73,6 @@ Route::resource('smscontacts', SmsContactController::class);
 Route::resource('smsgroups', SmsGroupController::class);
 Route::resource('tenantsenderids', TenantSenderIDController::class);
 Route::resource('smscampigncontacts', SmsCampignContactController::class);
+Route::resource('feedbackgroups', FeedbackGroupController::class);
+Route::resource('feedbackquestions', FeedbackQuestionController::class);
+Route::resource('feedbackreports', FeedbackReportController::class);

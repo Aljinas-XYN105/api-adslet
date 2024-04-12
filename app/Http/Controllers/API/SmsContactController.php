@@ -22,18 +22,28 @@ class SmsContactController extends Controller
     
     public function store(Request $request)
     {
+
         $input = $request->all();
+
+        $input['phone_number'] = explode(',', $input['phone_number']);
         $validator = Validator::make($input, [
             'smsgroup_id' => 'required',
-            'name' => 'required',
-            'phone_number'=>'required',
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'phone_number'=>'required|array',
+            'phone_number.*' => 'numeric', 
         ]);
         
         if ($validator->fails()) {
             return $this->error('Validation Error', 422, $validator->errors());
         }
-
-        $smscontact = SmsContact::create($input);
+        $smscontact = SmsContact::create([
+            'smsgroup_id' => $input['smsgroup_id'],
+            'first_name' => $input['first_name'],
+            'last_name' => $input['last_name'],
+            'phone_number' => $input['phone_number'],
+        ]);
+        //$smscontact = SmsContact::create($input);
         return $this->success(new SmsContactResource($smscontact), 'SmsContact created successfully.');
     }
    
@@ -53,16 +63,17 @@ class SmsContactController extends Controller
    
         $validator = Validator::make($input, [
             'smsgroup_id' => 'required',
-            'name' => 'required',
+            'first_name' => 'required',
+            'last_name' => 'required',
             'phone_number'=>'required',
         ]);
-   
         if ($validator->fails()) {
             return $this->error('Validation Error.', 400, $validator->errors());
         }
    
         $smscontact->smsgroup_id = $input['smsgroup_id'];
-        $smscontact->name = $input['name'];
+        $smscontact->first_name = $input['first_name'];
+        $smscontact->last_name = $input['last_name'];
         $smscontact->phone_number = $input['phone_number'];
         $smscontact->save();
    

@@ -13,6 +13,8 @@ class SmsCampaign extends Model
         'description',
         'message',
         'type',
+        'smsgroup_id',
+        'contact_no',
         'start_date',
         'start_time',
         'status',
@@ -22,7 +24,22 @@ class SmsCampaign extends Model
        protected $casts = [
         'type' => 'boolean',
         'status' => 'integer',
+        'contact_no' => 'array',
     ];
+   
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($smsCampaign) {
+            $smsCampaign->campaignHistory()->delete();
+        });
+    }
+
+    public function campaignhistory()
+{
+    return $this->hasMany(CampaignHistory::class, 'sms_campaign_id');
+}
 
        public function smsgroup()
         {

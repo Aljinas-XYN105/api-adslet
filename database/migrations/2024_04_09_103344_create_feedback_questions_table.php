@@ -11,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('terminals', function (Blueprint $table) {
+        Schema::create('feedback_questions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('branch_id')->constrained();
-            $table->string('terminal_name');
-            $table->string('terminal_code')->nullable();          
-            $table->boolean('status')->default(true);
+            $table->text('question');
+            $table->integer('sort_order');
+            $table->boolean('answer_text_box')->default(false);
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('terminals');
+        Schema::dropIfExists('feedback_questions');
     }
 };

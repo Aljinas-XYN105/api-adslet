@@ -4,25 +4,26 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Terminal extends Model
 {
-    use HasFactory , SoftDeletes;
-
+    use HasFactory;
     protected $fillable = [
-        'branch_id',
-        'terminal_name',
-        'terminal_code',
-        'status',
+        'name',
+        'background_image',
+        'terminal_logo',
+        'success_message',
+        'feedback_group_id',
+        'phone_number_required',
+        'email_required',
+        'sms_sender_id',
+        'notification_settings',
+        'customer_notification',
+    
     ];
 
-    protected $casts = [
-        'status' => 'boolean',
-    ];
-
-    public function branch()
+    public function feedbackgroup()
     {
-        return $this->belongsTo(Branch::class);
+        return $this->belongsTo(FeedbackGroup::class);
     }
 }
