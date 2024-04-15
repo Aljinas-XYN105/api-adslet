@@ -14,9 +14,8 @@ return new class extends Migration
         Schema::create('feedback_groups', function (Blueprint $table) {
             $table->id();
             $table->string('group_name');
-            $table->text('assign_questions');
-            $table->enum('answer_type', ['Stars', 'Numbers']);
-            $table->integer('expected_answers');
+            $table->integer('answer_type')->comment('1-Stars, 2-Numbers');
+            $table->integer('no_expected_answers');
             $table->json('answer_labels')->nullable();
             $table->timestamps();
         });
