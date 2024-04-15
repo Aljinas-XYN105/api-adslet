@@ -26,16 +26,16 @@ class TerminalController extends Controller
         $input = $request->all();
 
         $validator = Validator::make($input, [
+            'tenant_id'=> 'required',
+            'branch_id'=> 'required',
             'name' => 'required|string|max:255',
-            'terminal_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'background_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'terminal_code' => 'required|string|max:255',
+            'terminal_logo' => 'required',
+            'background_image' => 'required',
             'success_message' => 'nullable|string|max:255',
             'feedback_group_id' => 'nullable|integer',
-            'phone_number_required' => 'nullable|boolean',
-            'email_required' => 'nullable|boolean',
             'sms_sender_id' => 'nullable|string|max:255',
-            'notification_settings' => 'nullable',
-            'customer_notification' => 'nullable|string|max:255',
+            
         ]);
 
         if ($validator->fails()) {
@@ -46,19 +46,23 @@ class TerminalController extends Controller
         // if ($request->hasFile('terminal_logo')) {
         //     $terminalLogoPath = $request->file('terminal_logo')->store('terminal_logos');
         // }
+
+        $terminal_logo_filename = null;
+        $background_image_filename = null;
+        
         if($request->hasFile('terminal_logo')){
             $file= $request->file('terminal_logo');
             $ext = $file->getClientOriginalExtension();
             $terminal_logo_filename =time().'.'.$ext;
             $file->move('assets/uploads/terminal_logos',$terminal_logo_filename);
-           //$products->image = $filename;
+            //$terminal ->terminal_logo = $terminal_logo_filename;
             }
             if($request->hasFile('background_image')){
                 $file= $request->file('background_image');
                 $ext = $file->getClientOriginalExtension();
                 $background_image_filename =time().'.'.$ext;
                 $file->move('assets/uploads/background_images',$background_image_filename);
-               //$products->image = $filename;
+               // $terminal ->background_image = $background_image_filename;
                 }
 
 
@@ -66,22 +70,20 @@ class TerminalController extends Controller
         // if ($request->hasFile('background_image')) {
         //     $backgroundImagePath = $request->file('background_image')->store('background_images');
         // }
-
+        $successMessage = isset($input['success_message']) ? $input['success_message'] : 'Terminal created successfully.';
         $terminal = Terminal::create([
-
+            'tenant_id' => $input['tenant_id'],
+            'branch_id' => $input['branch_id'],
             'name' => $input['name'],
-            'success_message' => $input['success_message'],
+            'terminal_code' => $input['terminal_code'],
+            'success_message' =>$successMessage,
             'feedback_group_id' => $input['feedback_group_id'],
-            'phone_number_required' => $input['phone_number_required'],
-            'email_required' => $input['email_required'],
             'sms_sender_id' => $input['sms_sender_id'],
-            'notification_settings' => $input['notification_settings'],
-            'customer_notification' => $input['customer_notification'],
             'terminal_logo' =>  $terminal_logo_filename,
             'background_image' => $background_image_filename,
         ]);
 
-        return $this->success(new TerminalResource($terminal), 'Terminal created successfully.');
+        return $this->success(new TerminalResource($terminal),  "Terminal updated successfully.");
     }
 
     public function show($id)
@@ -97,16 +99,15 @@ class TerminalController extends Controller
     {
         $input = $request->all();
         $validator = Validator::make($input, [
-            'name' => 'nullable|string|max:255',
-            'terminal_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'background_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'success_message' => 'nullable|string|max:255',
+            'tenant_id'=> 'required',
+            'branch_id'=> 'required',
+            'name' => 'required|string|max:255',
+            'terminal_code' => 'required|string|max:255',
+            'terminal_logo' => 'required',
+            'background_image' => 'required',
+           // 'success_message' => 'nullable|string|max:255',
             'feedback_group_id' => 'nullable|integer',
-            'phone_number_required' => 'nullable|boolean',
-            'email_required' => 'nullable|boolean',
             'sms_sender_id' => 'nullable|string|max:255',
-            'notification_settings' => 'nullable|array',
-            'customer_notification' => 'nullable|string|max:255',
         ]);
     
         if ($validator->fails()) {

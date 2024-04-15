@@ -9,10 +9,22 @@ class FeedbackGroup extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'tenant_id',
+        'branch_id', 
         'group_name',
-        'assign_questions',
         'answer_type',
-        'expected_answers',
+        'no_expected_answers',
         'answer_labels'
     ];
+
+    public function tenant()
+    {
+        return $this->belongsTo(Tenant::class);
+    }
+
+    
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class);
+    }
 }

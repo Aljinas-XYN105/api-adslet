@@ -23,9 +23,10 @@ class FeedbackQuestionController extends Controller
         $input = $request->all();
 
         $validator = Validator::make($input, [
-           
+                'tenant_id'=> 'required',
+                'branch_id'=> 'required',
                 'question' => 'required|string', 
-                'sort_order' => 'required|integer', 
+                 'sort_order' => 'required|integer', 
                 'answer_text_box' => 'required|boolean',
            
         ]);
@@ -34,10 +35,20 @@ class FeedbackQuestionController extends Controller
             return $this->error('Validation Error', 422, $validator->errors());
         }
 
+        if (isset($input['answer_text_box'])) {
+            // If set, assign its value
+            $answerTextBoxValue = $input['answer_text_box'];
+        } else {
+            // If not set, assign a default value
+            $answerTextBoxValue = false;
+        }
+
         $feedbackquestion = FeedbackQuestion::create([
+            'tenant_id'=> $input['tenant_id'],
+            'branch_id'=> $input['branch_id'],
             'question' => $input['question'],
-            'sort_order' => $input['sort_order'],
-            'answer_text_box' => $input['answer_text_box'],
+            'sort_order' => $input['sort_order'], 
+            'answer_text_box' => $answerTextBoxValue = $input['answer_text_box'] ?? false,
           
         ]);
         
@@ -59,6 +70,8 @@ class FeedbackQuestionController extends Controller
              
 
                $validator = Validator::make($input, [
+                'tenant_id'=> 'required',
+                'branch_id'=> 'required',
                 'question' => 'required|string', 
                 'sort_order' => 'required|integer', 
                 'answer_text_box' => 'required|boolean',
@@ -69,9 +82,11 @@ class FeedbackQuestionController extends Controller
                 }
 
                 $feedbackquestion->update([
+                    'tenant_id'=> $input['tenant_id'],
+                    'branch_id'=> $input['branch_id'],
                     'question' => $input['question'],
-                    'sort_order' => $input['sort_order'],
-                    'answer_text_box' => $input['answer_text_box'],
+                    'sort_order' => $input['sort_order'], 
+                    'answer_text_box' => $answerTextBoxValue = $input['answer_text_box'] ?? false,
                 ]);
             
 

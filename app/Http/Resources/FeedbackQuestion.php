@@ -17,6 +17,8 @@ class FeedbackQuestion extends JsonResource
         //return parent::toArray($request);
         return [
             'id' => $this->id,
+            'tenant_id' => $this->tenant->name ?? null,
+            'branch_id' => $this->branch->name ?? null, 
             'question' => $this->question,
             'sort_order' => $this->sort_order,
             'answer_text_box'=>$this->answer_text_box,                        

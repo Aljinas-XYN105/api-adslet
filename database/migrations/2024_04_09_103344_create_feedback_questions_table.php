@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('feedback_questions', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('tenant_id')->constrained();
+            $table->foreignId('branch_id')->nullable()->constrained();           
             $table->text('question');
             $table->integer('sort_order');
             $table->boolean('answer_text_box')->default(false);

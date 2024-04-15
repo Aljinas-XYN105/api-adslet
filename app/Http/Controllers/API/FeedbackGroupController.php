@@ -25,11 +25,12 @@ class FeedbackGroupController extends Controller
 
        
         $validator = Validator::make($input, [
+            'tenant_id'=> 'required',
+            'branch_id'=> 'required',
             'group_name' => 'required',
-            'assign_questions' => 'required',
             'answer_type' => 'required',
-            'expected_answers' => 'required',
-            'answer_labels' => 'required',
+            'no_expected_answers' => 'required',
+            //'answer_labels' => 'required',
         ]);
         
         if ($validator->fails()) {
@@ -37,11 +38,12 @@ class FeedbackGroupController extends Controller
         }
 
         $feedbackgroup = FeedbackGroup::create([
+            'tenant_id'=> $input['tenant_id'],
+            'branch_id'=> $input['branch_id'],
             'group_name' => $input['group_name'],
-            'assign_questions' => $input['assign_questions'],
             'answer_type' => $input['answer_type'],
-            'expected_answers' => $input['expected_answers'],
-            'answer_labels' => $input['answer_labels'],
+            'no_expected_answers' => $input['no_expected_answers'],
+            //'answer_labels' => $input['answer_labels'] ?? '', 
         ]);
         
         return $this->success(new FeedbackGroupResource($feedbackgroup), 'FeedbackGroup created successfully.');
@@ -64,11 +66,12 @@ class FeedbackGroupController extends Controller
              
 
                $validator = Validator::make($input, [
+                'tenant_id'=> 'required',
+                'branch_id'=> 'required',
                 'group_name' => 'required',
-                'assign_questions' => 'required',
                 'answer_type' => 'required',
-                'expected_answers' => 'required',
-                'answer_labels' => 'required',
+                'no_expected_answers' => 'required',
+                //'answer_labels' => 'required',
             ]);
 
                 if ($validator->fails()) {
@@ -76,11 +79,12 @@ class FeedbackGroupController extends Controller
                 }
 
                 $feedbackgroup->update([
+                    'tenant_id'=> $input['tenant_id'],
+                    'branch_id'=> $input['branch_id'],
                     'group_name' => $input['group_name'],
-                    'assign_questions' => $input['assign_questions'],
                     'answer_type' => $input['answer_type'],
-                    'expected_answers' => $input['expected_answers'],
-                    'answer_labels' => $input['answer_labels'],
+                    'no_expected_answers' => $input['no_expected_answers'],
+                    //'answer_labels' => $input['answer_labels'] ?? '', 
                 ]);
             
 

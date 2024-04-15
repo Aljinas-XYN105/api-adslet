@@ -13,16 +13,15 @@ return new class extends Migration
     {
         Schema::create('terminals', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('tenant_id')->constrained();
+            $table->foreignId('branch_id')->nullable()->constrained();
             $table->string('name');
+            $table->string('terminal_code');
             $table->string('background_image')->nullable();
             $table->string('terminal_logo')->nullable();
             $table->string('success_message')->nullable();
             $table->unsignedBigInteger('feedback_group_id')->nullable();
-            $table->boolean('phone_number_required')->default(false);
-            $table->boolean('email_required')->default(false);
             $table->string('sms_sender_id')->nullable();
-            $table->json('notification_settings')->nullable();
-            $table->boolean('customer_notification')->default(true);
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('feedback_group_id')->references('id')->on('feedback_groups')->onDelete('set null');

@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('feedback_groups', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('tenant_id')->constrained();
+            $table->foreignId('branch_id')->nullable()->constrained();
             $table->string('group_name');
             $table->integer('answer_type')->comment('1-Stars, 2-Numbers');
             $table->integer('no_expected_answers');
-            $table->json('answer_labels')->nullable();
+            $table->text('answer_labels')->nullable();
             $table->timestamps();
         });
     }
