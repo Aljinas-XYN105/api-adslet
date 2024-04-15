@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('sms_campaign_id')->constrained();
             $table->foreignId('user_id')->constrained();
+            $table->text('contact_no');
+            $table->text('message');
             $table->date('date')->nullable();
             $table->time('time')->nullable(); 
             $table->tinyInteger('status')->comment('0 - Not Started, 1 - Running, 2 - Paused, 3 - Cancelled, 4 - Finished');

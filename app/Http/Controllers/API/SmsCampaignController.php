@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\SmsCampaign;
 use App\Models\CampaignHistory;
+use App\Models\SmsCampignContact;
+use App\Models\CampaignGroup;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\SmsCampaign as SmsCampaignResource;
@@ -56,20 +58,35 @@ class SmsCampaignController extends Controller
             'message' => $input['message'],
             'smsgroup_id' => $input['smsgroup_id'],
             'type' => $input['type'],
-            'contact_no' => $input['contact_no'],
+           // 'contact_no' => $input['contact_no'],
             'start_date' => $input['start_date'],
             'start_time' => $input['start_time'],
             'status' => SmsCampaign::STATUS_NOT_STARTED,
             'queue_status' => 'pending',
-        ]);
-        
-      
+        ]);    
         
         if ($smscampaign) {
+            // $smscampigncontact = SmsCampignContact::create([
+            //     'sms_campaign_id' => $smscampaign->id,
+            //     'contact_no' => $input['contact_no'],
+            // ]);
+            foreach ($input['contact_no'] as $contact) {
+                $smscampigncontact = SmsCampignContact::create([
+                    'sms_campaign_id' => $smscampaign->id,
+                    'contact_no' => $contact,
+                ]);
+
+            $campaigngroup = CampaignGroup::create([
+                'sms_campaign_id' => $smscampaign->id,
+                'smsgroup_id' => $input['smsgroup_id'],
+            ]);
+        }
             SendSmsCampaignJob::dispatch($smscampaign->id);
 
             $campaignhistory = CampaignHistory::create([
                 'sms_campaign_id' => $smscampaign->id,
+                'message' => $smscampaign->message,
+                'contact_no' => $contact,
                 'user_id' => 1,
                 // $user->id,
                 'date' => now()->toDateString(),

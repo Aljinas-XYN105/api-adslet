@@ -26,6 +26,11 @@ class SmsCampaign extends Model
         'status' => 'integer',
         'contact_no' => 'array',
     ];
+
+    public function campaigncontact()
+{
+    return $this->hasMany(SmsCampignContact::class);
+}
    
     public static function boot()
     {
