@@ -13,7 +13,7 @@ class SmsCampaign extends Model
         'description',
         'message',
         'type',
-        'smsgroup_id',
+        // 'smsgroup_id',
         'contact_no',
         'start_date',
         'start_time',
