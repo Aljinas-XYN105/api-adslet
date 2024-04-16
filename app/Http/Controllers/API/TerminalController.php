@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Terminal;
 use App\Models\FeedbackGroup;
+use App\Models\TerminalGroup;
 use App\Http\Resources\Terminal as TerminalResource;
 use Illuminate\Support\Facades\Validator;
 use App\Traits\ApiResponser;
@@ -82,6 +83,15 @@ class TerminalController extends Controller
             'terminal_logo' =>  $terminal_logo_filename,
             'background_image' => $background_image_filename,
         ]);
+
+        if($terminal)
+        {
+            $terminalgroup = TerminalGroup::create([
+                'terminal_id'=>$terminal->id,
+                'feedback_group_id' =>$terminal->feedback_group_id
+               
+            ]);
+        }
 
         return $this->success(new TerminalResource($terminal),  "Terminal updated successfully.");
     }
