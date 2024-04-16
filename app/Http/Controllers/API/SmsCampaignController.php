@@ -56,7 +56,6 @@ class SmsCampaignController extends Controller
             'name' => $input['name'],
             'description' => $input['description'],
             'message' => $input['message'],
-            // 'smsgroup_id' => $input['smsgroup_id'],
             'type' => $input['type'],
             // 'contact_no' => $input['contact_no'],
             'start_date' => $input['start_date'],
@@ -87,9 +86,7 @@ class SmsCampaignController extends Controller
             $campaignhistory = CampaignHistory::create([
                 'sms_campaign_id' => $smscampaign->id,
                 'message' => $smscampaign->message,
-                // 'contact_no' => $contact,
-                'user_id' => Auth::User()->id,
-                // $user->id,
+                'user_id' => Auth::User()->id,            
                 'date' => now()->toDateString(),
                 'time' => now()->toTimeString(),
                 'status' => $smscampaign->status,

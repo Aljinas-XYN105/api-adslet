@@ -84,14 +84,14 @@ class TerminalController extends Controller
             'background_image' => $background_image_filename,
         ]);
 
-        if($terminal)
-        {
-            $terminalgroup = TerminalGroup::create([
-                'terminal_id'=>$terminal->id,
-                'feedback_group_id' =>$terminal->feedback_group_id
+        // if($terminal)
+        // {
+        //     $terminalgroup = TerminalGroup::create([
+        //         'terminal_id'=>$terminal->id,
+        //         'feedback_group_id' =>$terminal->feedback_group_id
                
-            ]);
-        }
+        //     ]);
+        // }
 
         return $this->success(new TerminalResource($terminal),  "Terminal updated successfully.");
     }

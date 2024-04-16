@@ -17,7 +17,6 @@ return new class extends Migration
             $table->text('description')->nullable();  
             $table->text('message')->nullable(); 
             $table->boolean('type')->default('0');
-            $table->foreignId('smsgroup_id')->constrained('sms_groups'); 
             $table->text('contact_no')->nullable();
             $table->date('start_date')->nullable();
             $table->time('start_time')->nullable(); 

@@ -10,7 +10,7 @@ class TerminalGroup extends Model
     use HasFactory;
     protected $fillable = [
         'feedback_group_id',
-        'terminal_id',    
+        'feedback_question_id',    
     ];
 
     public function feedbackgroup()
@@ -19,8 +19,8 @@ class TerminalGroup extends Model
     }
 
     
-    public function terminal()
+    public function feedbackquestion()
     {
-        return $this->belongsTo(Terminal::class);
+        return $this->belongsTo(FeedbackQuestion::class);
     }
 }

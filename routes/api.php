@@ -44,20 +44,21 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('verify_token', [AuthController::class, 'verifyToken']);
 
-    Route::resource('questions', QuestionController::class);
-    Route::resource('branches', BranchController::class);
-    Route::resource('tenants', TenantController::class);
-    Route::resource('roles', RoleController::class);
-    Route::resource('smshistory', SmsHistoryController::class);
-    Route::resource('users', UserController::class);
-    Route::resource('terminalquestions', TerminalQuestionController::class);
-    Route::resource('terminals', TerminalController::class);
-    Route::resource('smscampaigns', SmsCampaignController::class);
-    Route::resource('smscontacts', SmsContactController::class);
-    Route::resource('smsgroups', SmsGroupController::class);
-    Route::resource('tenantsenderids', TenantSenderIDController::class);
-    Route::resource('smscampigncontacts', SmsCampignContactController::class);
-    Route::resource('feedbackgroups', FeedbackGroupController::class);
-    Route::resource('feedbackquestions', FeedbackQuestionController::class);
-    Route::resource('feedbackreports', FeedbackReportController::class);
+  
 });
+Route::resource('questions', QuestionController::class);
+Route::resource('branches', BranchController::class);
+Route::resource('tenants', TenantController::class);
+Route::resource('roles', RoleController::class);
+Route::resource('smshistory', SmsHistoryController::class);
+Route::resource('users', UserController::class);
+Route::resource('terminalquestions', TerminalQuestionController::class);
+Route::resource('terminals', TerminalController::class);
+Route::resource('smscampaigns', SmsCampaignController::class);
+Route::resource('smscontacts', SmsContactController::class);
+Route::resource('smsgroups', SmsGroupController::class);
+Route::resource('tenantsenderids', TenantSenderIDController::class);
+Route::resource('smscampigncontacts', SmsCampignContactController::class);
+Route::resource('feedbackgroups', FeedbackGroupController::class);
+Route::resource('feedbackquestions', FeedbackQuestionController::class);
+Route::resource('feedbackreports', FeedbackReportController::class);

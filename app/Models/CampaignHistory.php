@@ -12,7 +12,6 @@ class CampaignHistory extends Model
         'sms_campaign_id',
         'user_id',
         'date',
-        'contact_no',
         'message',
         'time',
         'status',

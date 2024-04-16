@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('terminal_groups', function (Blueprint $table) {
             $table->id();
             $table->foreignId('feedback_group_id')->constrained();
-            $table->foreignId('terminal_id')->constrained();
+            $table->foreignId('feedback_question_id')->constrained();
             $table->timestamps();
         });
     }
