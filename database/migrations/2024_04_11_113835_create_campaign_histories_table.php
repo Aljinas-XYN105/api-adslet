@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('sms_campaign_id')->constrained();
             $table->foreignId('user_id')->constrained();
-            $table->text('contact_no');
             $table->text('message');
             $table->date('date')->nullable();
             $table->time('time')->nullable(); 

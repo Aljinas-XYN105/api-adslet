@@ -24,7 +24,7 @@ class Terminal extends Model
 
     public function feedbackgroup()
     {
-        return $this->belongsTo(FeedbackGroup::class);
+        return $this->belongsTo(FeedbackGroup::class, 'feedback_group_id');
     }
 
     public function tenant()

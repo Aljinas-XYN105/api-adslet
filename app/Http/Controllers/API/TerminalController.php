@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Terminal;
 use App\Models\FeedbackGroup;
-use App\Models\TerminalGroup;
 use App\Http\Resources\Terminal as TerminalResource;
 use Illuminate\Support\Facades\Validator;
 use App\Traits\ApiResponser;
@@ -31,10 +30,11 @@ class TerminalController extends Controller
             'branch_id'=> 'required',
             'name' => 'required|string|max:255',
             'terminal_code' => 'required|string|max:255',
-            'terminal_logo' => 'required',
-            'background_image' => 'required',
+           // 'terminal_logo' => 'required',
+            //'background_image' => 'required',
             'success_message' => 'nullable|string|max:255',
-            'feedback_group_id' => 'nullable|integer',
+            'feedback_group_id' => 'required|array',
+            'feedback_group_id.*' => 'exists:feedback_groups,id',
             'sms_sender_id' => 'nullable|string|max:255',
             
         ]);
@@ -72,26 +72,19 @@ class TerminalController extends Controller
         //     $backgroundImagePath = $request->file('background_image')->store('background_images');
         // }
         $successMessage = isset($input['success_message']) ? $input['success_message'] : 'Terminal created successfully.';
+
+        $serializedfeedback_group_id = is_array($input['feedback_group_id']) ? implode(',', $input['feedback_group_id']) : null;
         $terminal = Terminal::create([
-            'tenant_id' => $input['tenant_id'],
-            'branch_id' => $input['branch_id'],
+            'tenant_id' => 1,
+            'branch_id' =>1,
             'name' => $input['name'],
             'terminal_code' => $input['terminal_code'],
             'success_message' =>$successMessage,
-            'feedback_group_id' => $input['feedback_group_id'],
+            'feedback_group_id' =>$serializedfeedback_group_id,
             'sms_sender_id' => $input['sms_sender_id'],
             'terminal_logo' =>  $terminal_logo_filename,
             'background_image' => $background_image_filename,
         ]);
-
-        // if($terminal)
-        // {
-        //     $terminalgroup = TerminalGroup::create([
-        //         'terminal_id'=>$terminal->id,
-        //         'feedback_group_id' =>$terminal->feedback_group_id
-               
-        //     ]);
-        // }
 
         return $this->success(new TerminalResource($terminal),  "Terminal updated successfully.");
     }

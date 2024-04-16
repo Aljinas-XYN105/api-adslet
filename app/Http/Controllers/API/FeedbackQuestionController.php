@@ -44,8 +44,8 @@ class FeedbackQuestionController extends Controller
         }
 
         $feedbackquestion = FeedbackQuestion::create([
-            'tenant_id'=> $input['tenant_id'],
-            'branch_id'=> $input['branch_id'],
+            'tenant_id'=> 1,
+            'branch_id'=> 1,
             'question' => $input['question'],
             'sort_order' => $input['sort_order'], 
             'answer_text_box' => $answerTextBoxValue = $input['answer_text_box'] ?? false,
@@ -70,8 +70,8 @@ class FeedbackQuestionController extends Controller
              
 
                $validator = Validator::make($input, [
-                'tenant_id'=> 'required',
-                'branch_id'=> 'required',
+                'tenant_id'=> 1,
+                'branch_id'=> 1,
                 'question' => 'required|string', 
                 'sort_order' => 'required|integer', 
                 'answer_text_box' => 'required|boolean',

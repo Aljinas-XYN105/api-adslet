@@ -32,19 +32,28 @@ class SmsCampaign extends Model
     return $this->hasMany(SmsCampignContact::class);
 }
    
-    public static function boot()
-    {
-        parent::boot();
+    // public static function boot()
+    // {
+    //     parent::boot();
 
-        static::deleting(function ($smsCampaign) {
-            $smsCampaign->campaignHistory()->delete();
-        });
-    }
+    //     static::deleting(function ($smsCampaign) {
+    //         $smsCampaign->campaignHistory()->delete();
+    //     });
+    // }
 
-    public function campaignhistory()
-{
-    return $this->hasMany(CampaignHistory::class, 'sms_campaign_id');
-}
+//     public function campaignhistory()
+// {
+//     return $this->hasMany(CampaignHistory::class, 'sms_campaign_id');
+// }
+            public function smsCampignContacts()
+            {
+                return $this->hasMany(SmsCampignContact::class);
+            }
+
+            public function campaignHistory()
+            {
+                return $this->hasMany(CampaignHistory::class);
+            }
 
        public function smsgroup()
         {

@@ -39,4 +39,9 @@ class Tenant extends Model
             ->orderBy('id', 'desc')
             ->get();
     }
+
+    public function branch()
+{
+    return $this->belongsTo(Branch::class);
+}
 }

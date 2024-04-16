@@ -9,6 +9,7 @@ use App\Models\CampaignHistory;
 use App\Models\SmsCampignContact;
 use App\Models\CampaignGroup;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\SmsCampaign as SmsCampaignResource;
 use Illuminate\Support\Facades\Validator;
@@ -31,20 +32,19 @@ class SmsCampaignController extends Controller
         $user = Auth::user();
 
         $input = $request->all();
-        $input['contact_no'] = explode(',', $input['contact_no']);
+        //$input['contact_no'] = explode(',', $input['contact_no']);
         $input['start_date'] = date('Y-m-d', strtotime($input['start_date']));
 
         $validator = Validator::make($input, [
             'name' => 'required',
             'description' => 'required',
             'message' => 'required',
-            'smsgroup_id' => 'required',
             'type' => 'required|boolean',
             'start_date' => 'required',
             'start_time' => 'required',
-            'contact_no' => 'required|array',
-            'contact_no.*' => 'numeric',
-            'status' => 'required|integer',
+            'contact_no' => 'required',
+            //'contact_no.*' => 'numeric',
+            //'status' => 'required|integer',
             'queue_status' => 'nullable|string',
         ]);
 
@@ -69,24 +69,25 @@ class SmsCampaignController extends Controller
             //     'sms_campaign_id' => $smscampaign->id,
             //     'contact_no' => $input['contact_no'],
             // ]);
-            foreach ($input['contact_no'] as $contact) {
+            // foreach ($input['contact_no'] as $contact) {
                 $smscampigncontact = SmsCampignContact::create([
                     'sms_campaign_id' => $smscampaign->id,
-                    'contact_no' => $contact,
+                    'contact_no' =>  $input['contact_no'],
                 ]);
-                foreach ($input['smsgroup_id'] as $smsgroup_id) {
-                    $campaigngroup = CampaignGroup::create([
-                        'sms_campaign_id' => $smscampaign->id,
-                        'smsgroup_id' => $smsgroup_id,
-                    ]);
-                }
-            }
+                // foreach ($input['smsgroup_id'] as $smsgroup_id) {
+                //     $campaigngroup = CampaignGroup::create([
+                //         'sms_campaign_id' => $smscampaign->id,
+                //         'smsgroup_id' => $smsgroup_id,
+                //     ]);
+                // }
+            // }
             // SendSmsCampaignJob::dispatch($smscampaign->id);
 
             $campaignhistory = CampaignHistory::create([
                 'sms_campaign_id' => $smscampaign->id,
                 'message' => $smscampaign->message,
-                'user_id' => Auth::User()->id,            
+                'user_id' => 1,
+               // Auth::User()->id,            
                 'date' => now()->toDateString(),
                 'time' => now()->toTimeString(),
                 'status' => $smscampaign->status,
@@ -95,44 +96,7 @@ class SmsCampaignController extends Controller
         }
         return $this->success(new SmsCampaignResource($smscampaign), 'SmsCampaign created successfully.');
     }
-    // public function store(Request $request)
-    // {
-    //     $validator = Validator::make($request->all(), [
-    //         'name' => 'required',
-    //         'description' => 'required',
-    //         'message' => 'required',
-    //         'type' => 'required|boolean',
-    //         'start_date' => 'required|date',
-    //         'start_time' => 'required',
-    //         'status' => 'required|integer',
-    //         'queue_status' => 'nullable|string',
-    //     ]);
-
-    //     if ($validator->fails()) {
-    //         return $this->error('Validation Error', 422, $validator->errors());
-    //     }
-
-    //     $input = $validator->validated();
-    //     $input['start_date'] = date('Y-m-d', strtotime($input['start_date']));
-    //     $input['queue_status'] = 'pending';
-    //     $smscampaign = SmsCampaign::create($input);
-
-    //     if (!$smscampaign) {
-    //         return $this->error('Failed to create SmsCampaign', 500);
-    //     }
-
-
-    //     SendSmsCampaignJob::dispatch($smscampaign->id);
-    //     $campaignhistory = CampaignHistory::create([
-    //         'sms_campaign_id' => $smscampaign->id,
-    //         'user_id' => 1,
-    //         'date' => now()->toDateString(),
-    //         'time' => now()->toTimeString(),
-    //         'status' => SmsCampaign::STATUS_NOT_STARTED,
-    //     ]);
-
-    //     return $this->success(new SmsCampaignResource($smscampaign), 'SmsCampaign created successfully.');
-    // }
+    
     public function show($id)
     {
         $smscampaign = SmsCampaign::find($id);
@@ -181,9 +145,23 @@ class SmsCampaignController extends Controller
         return $this->success($smscampaign, "SmsCampaign updated successfully.", 200);
     }
 
+
     public function destroy(SmsCampaign $smscampaign)
     {
-        $smscampaign->delete();
+            DB::beginTransaction();
+
+            try {
+
+                $smscampaign->smsCampignContacts()->delete();
+                $smscampaign->campaignHistory()->delete();
+                $smscampaign->delete();
+
+                DB::commit();
+            } catch (\Exception $e) {
+                 DB::rollBack();
+             return $this->error('Error deleting SmsCampaign', 500, $e->getMessage());
+             }
+
         return $this->success([], 'SmsCampaign deleted successfully.');
     }
 }

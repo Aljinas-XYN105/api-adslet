@@ -12,6 +12,7 @@ class FeedbackGroup extends Model
         'tenant_id',
         'branch_id', 
         'group_name',
+        'question_id',
         'answer_type',
         'no_expected_answers',
         'answer_labels'
@@ -26,5 +27,10 @@ class FeedbackGroup extends Model
     public function branch()
     {
         return $this->belongsTo(Branch::class);
+    }
+
+    public function feedebackquestion()
+    {
+        return $this->belongsTo(FeedbackQuestion::class, 'question_id');
     }
 }
