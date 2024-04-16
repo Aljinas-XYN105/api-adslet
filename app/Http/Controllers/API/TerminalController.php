@@ -23,18 +23,24 @@ class TerminalController extends Controller
 
     public function store(Request $request)
     {
-        $input = $request->all();
+       // $input = $request->all();
+       $input = $request->except('feedback_group_id');
+   if ($request->has('feedback_group_id')) {
+       $input['feedback_group_id'] = explode(',', $request->input('feedback_group_id'));
+   }
 
         $validator = Validator::make($input, [
-            'tenant_id'=> 'required',
-            'branch_id'=> 'required',
+            //'tenant_id'=> 'required',
+            //'branch_id'=> 'required',
             'name' => 'required|string|max:255',
             'terminal_code' => 'required|string|max:255',
-           // 'terminal_logo' => 'required',
+            //'terminal_logo' => 'required',
             //'background_image' => 'required',
             'success_message' => 'nullable|string|max:255',
-            'feedback_group_id' => 'required|array',
-            'feedback_group_id.*' => 'exists:feedback_groups,id',
+           // 'feedback_group_id' => 'nullable',
+           'feedback_group_id' => 'required|array',
+           'feedback_group_id.*' => 'numeric',
+           'feedback_group_id.*' => 'exists:feedback_groups,id',
             'sms_sender_id' => 'nullable|string|max:255',
             
         ]);
@@ -71,16 +77,17 @@ class TerminalController extends Controller
         // if ($request->hasFile('background_image')) {
         //     $backgroundImagePath = $request->file('background_image')->store('background_images');
         // }
-        $successMessage = isset($input['success_message']) ? $input['success_message'] : 'Terminal created successfully.';
+        $serializedQuestionIds = implode(',', $input['feedback_group_id']);
 
-        $serializedfeedback_group_id = is_array($input['feedback_group_id']) ? implode(',', $input['feedback_group_id']) : null;
+        $successMessage = isset($input['success_message']) ? $input['success_message'] : 'Terminal created successfully.';
         $terminal = Terminal::create([
-            'tenant_id' => 1,
-            'branch_id' =>1,
+            'tenant_id' =>1,
+            'branch_id' => 1,
             'name' => $input['name'],
             'terminal_code' => $input['terminal_code'],
             'success_message' =>$successMessage,
-            'feedback_group_id' =>$serializedfeedback_group_id,
+            'feedback_group_id' => $serializedQuestionIds,
+            //$input['feedback_group_id'],
             'sms_sender_id' => $input['sms_sender_id'],
             'terminal_logo' =>  $terminal_logo_filename,
             'background_image' => $background_image_filename,

@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('background_image')->nullable();
             $table->string('terminal_logo')->nullable();
             $table->string('success_message')->nullable();
-            $table->unsignedBigInteger('feedback_group_id')->nullable();
+            $table->string('feedback_group_id')->nullable();
             $table->string('sms_sender_id')->nullable();
             $table->timestamps();
             $table->softDeletes();

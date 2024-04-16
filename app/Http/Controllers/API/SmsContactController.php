@@ -25,13 +25,13 @@ class SmsContactController extends Controller
 
         $input = $request->all();
 
-        $input['phone_number'] = explode(',', $input['phone_number']);
+        //$input['phone_number'] = explode(',', $input['phone_number']);
         $validator = Validator::make($input, [
             'smsgroup_id' => 'required',
             'first_name' => 'required',
             'last_name' => 'required',
-            'phone_number'=>'required|array',
-            'phone_number.*' => 'numeric', 
+            'phone_number'=>'required',
+            // 'phone_number.*' => 'numeric', 
         ]);
         
         if ($validator->fails()) {
