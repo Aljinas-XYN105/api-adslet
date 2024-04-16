@@ -20,11 +20,11 @@ return new class extends Migration
             $table->string('background_image')->nullable();
             $table->string('terminal_logo')->nullable();
             $table->string('success_message')->nullable();
-            $table->string('feedback_group_id')->nullable();
+            $table->foreignId('feedback_group_id')->nullable()->constrained();
             $table->string('sms_sender_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign('feedback_group_id')->references('id')->on('feedback_groups')->onDelete('set null');
+            // $table->foreign('feedback_group_id')->references('id')->on('feedback_groups')->onDelete('set null');
         });
     }
 

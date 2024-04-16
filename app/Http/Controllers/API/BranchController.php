@@ -26,7 +26,7 @@ class BranchController extends Controller
         $validator = Validator::make($input, [
             'tenant_id' => 'required',
             'name' => 'required',  
-            'email' => 'required|email|unique:tenants', 
+            'email' => 'required|email|unique:branches', 
             //'no_of_terminals' => 'required|integer|min:1',
             'location' => 'required',
             'address' => 'required',

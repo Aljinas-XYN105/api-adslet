@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('terminal_groups', function (Blueprint $table) {
+        Schema::create('feedback_group_questions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('feedback_group_id')->constrained();
             $table->foreignId('feedback_question_id')->constrained();

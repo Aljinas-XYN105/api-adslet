@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\FeedbackGroup;
 use App\Models\FeedbackQuestion;
 use App\Http\Resources\FeedbackGroup as FeedbackGroupResource;
+use App\Models\FeedbackGroupQuestion;
 use Illuminate\Support\Facades\Validator;
 use App\Traits\ApiResponser;
 class FeedbackGroupController extends Controller
@@ -30,8 +31,6 @@ class FeedbackGroupController extends Controller
             //'branch_id'=> 'required',
             'group_name' => 'required',
             'question_id' => 'required|array', // Ensure question_id is an array
-            'question_id.*' => 'numeric', 
-            'question_id.*' => 'exists:feedback_questions,id',
             'answer_type' => 'required',
             'no_expected_answers' => 'required',
             //'answer_labels' => 'required',
@@ -40,16 +39,23 @@ class FeedbackGroupController extends Controller
         if ($validator->fails()) {
             return $this->error('Validation Error', 422, $validator->errors());
         }
-        $serializedQuestionIds = implode(',', $input['question_id']);
         $feedbackgroup = FeedbackGroup::create([
             'tenant_id'=> 1,
             'branch_id'=> 1,
             'group_name' => $input['group_name'],
             'answer_type' => $input['answer_type'],
-            'question_id' =>  $serializedQuestionIds,
             'no_expected_answers' => $input['no_expected_answers'],
             //'answer_labels' => $input['answer_labels'] ?? '', 
         ]);
+
+        if($feedbackgroup->id){
+            foreach ($input['question_id'] as $key => $value) {
+                FeedbackGroupQuestion::create([
+                    'feedback_question_id'=> $value,
+                    'feedback_group_id'=> $feedbackgroup->id,
+                ]);
+            }
+        }
         
         return $this->success(new FeedbackGroupResource($feedbackgroup), 'FeedbackGroup created successfully.');
     }

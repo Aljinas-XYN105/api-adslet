@@ -23,11 +23,8 @@ class FeedbackQuestionController extends Controller
         $input = $request->all();
 
         $validator = Validator::make($input, [
-                'tenant_id'=> 'required',
-                'branch_id'=> 'required',
                 'question' => 'required|string', 
-                 'sort_order' => 'required|integer', 
-                'answer_text_box' => 'required|boolean',
+                'sort_order' => 'required|integer', 
            
         ]);
         

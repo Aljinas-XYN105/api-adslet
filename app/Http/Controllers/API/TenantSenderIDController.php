@@ -8,12 +8,14 @@ use App\Models\TenantSenderID;
 use App\Http\Resources\TenantSenderID as TenantSenderIDResource;
 use Illuminate\Support\Facades\Validator;
 use App\Traits\ApiResponser;
+use Illuminate\Support\Facades\Auth;
+
 class TenantSenderIDController extends Controller
 {
     use ApiResponser;
     public function index()
     {
-        $tenantsenderids = TenantSenderID::all();
-        return $this->success(TenantSenderIDResource::collection($tenantsenderids), 'TenantSenderID fetched successfully.');
+        $tenantsenderids = TenantSenderID::where('tenant_id',Auth::User()->tenant_id)->get();
+        return $this->success($tenantsenderids, 'TenantSenderID fetched successfully.');
     }
 }

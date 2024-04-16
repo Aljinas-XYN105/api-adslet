@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('tenant_id')->constrained();
             $table->foreignId('branch_id')->nullable()->constrained();
-            $table->foreignId('question_id')->nullable()->constrained();
             $table->string('group_name');
             $table->integer('answer_type')->comment('1-Stars, 2-Numbers');
             $table->integer('no_expected_answers');

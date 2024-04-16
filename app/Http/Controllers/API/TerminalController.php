@@ -9,8 +9,10 @@ use App\Models\FeedbackGroup;
 use App\Http\Resources\Terminal as TerminalResource;
 use Illuminate\Support\Facades\Validator;
 use App\Traits\ApiResponser;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+
 class TerminalController extends Controller
 {
     use ApiResponser;
@@ -23,26 +25,17 @@ class TerminalController extends Controller
 
     public function store(Request $request)
     {
-       // $input = $request->all();
-       $input = $request->except('feedback_group_id');
-   if ($request->has('feedback_group_id')) {
-       $input['feedback_group_id'] = explode(',', $request->input('feedback_group_id'));
-   }
+        // $input = $request->all();
+        $input = $request->except('feedback_group_id');
+        if ($request->has('feedback_group_id')) {
+            $input['feedback_group_id'] = explode(',', $request->input('feedback_group_id'));
+        }
 
         $validator = Validator::make($input, [
-            //'tenant_id'=> 'required',
-            //'branch_id'=> 'required',
             'name' => 'required|string|max:255',
             'terminal_code' => 'required|string|max:255',
-            //'terminal_logo' => 'required',
-            //'background_image' => 'required',
             'success_message' => 'nullable|string|max:255',
-           // 'feedback_group_id' => 'nullable',
-           'feedback_group_id' => 'required|array',
-           'feedback_group_id.*' => 'numeric',
-           'feedback_group_id.*' => 'exists:feedback_groups,id',
             'sms_sender_id' => 'nullable|string|max:255',
-            
         ]);
 
         if ($validator->fails()) {
@@ -56,37 +49,37 @@ class TerminalController extends Controller
 
         $terminal_logo_filename = null;
         $background_image_filename = null;
-        
-        if($request->hasFile('terminal_logo')){
-            $file= $request->file('terminal_logo');
+
+        if ($request->hasFile('terminal_logo')) {
+            $file = $request->file('terminal_logo');
             $ext = $file->getClientOriginalExtension();
-            $terminal_logo_filename =time().'.'.$ext;
-            $file->move('assets/uploads/terminal_logos',$terminal_logo_filename);
+            $terminal_logo_filename = time() . '.' . $ext;
+            $file->move('assets/uploads/terminal_logos', $terminal_logo_filename);
             //$terminal ->terminal_logo = $terminal_logo_filename;
-            }
-            if($request->hasFile('background_image')){
-                $file= $request->file('background_image');
-                $ext = $file->getClientOriginalExtension();
-                $background_image_filename =time().'.'.$ext;
-                $file->move('assets/uploads/background_images',$background_image_filename);
-               // $terminal ->background_image = $background_image_filename;
-                }
+        }
+        if ($request->hasFile('background_image')) {
+            $file = $request->file('background_image');
+            $ext = $file->getClientOriginalExtension();
+            $background_image_filename = time() . '.' . $ext;
+            $file->move('assets/uploads/background_images', $background_image_filename);
+            // $terminal ->background_image = $background_image_filename;
+        }
 
 
         // $backgroundImagePath = null;
         // if ($request->hasFile('background_image')) {
         //     $backgroundImagePath = $request->file('background_image')->store('background_images');
         // }
-        $serializedQuestionIds = implode(',', $input['feedback_group_id']);
+        // $serializedQuestionIds = implode(',', $input['feedback_group_id']);
 
         $successMessage = isset($input['success_message']) ? $input['success_message'] : 'Terminal created successfully.';
         $terminal = Terminal::create([
-            'tenant_id' =>1,
-            'branch_id' => 1,
+            'tenant_id' => Auth::User()->tenant_id,
+            'branch_id' => Auth::User()->branch_id,
             'name' => $input['name'],
             'terminal_code' => $input['terminal_code'],
-            'success_message' =>$successMessage,
-            'feedback_group_id' => $serializedQuestionIds,
+            'success_message' => $successMessage,
+            'feedback_group_id' => $input['feedback_group_id'],
             //$input['feedback_group_id'],
             'sms_sender_id' => $input['sms_sender_id'],
             'terminal_logo' =>  $terminal_logo_filename,
@@ -109,24 +102,24 @@ class TerminalController extends Controller
     {
         $input = $request->all();
         $validator = Validator::make($input, [
-            'tenant_id'=> 'required',
-            'branch_id'=> 'required',
+            'tenant_id' => 'required',
+            'branch_id' => 'required',
             'name' => 'required|string|max:255',
             'terminal_code' => 'required|string|max:255',
             'terminal_logo' => 'required',
             'background_image' => 'required',
-           // 'success_message' => 'nullable|string|max:255',
+            // 'success_message' => 'nullable|string|max:255',
             'feedback_group_id' => 'nullable|integer',
             'sms_sender_id' => 'nullable|string|max:255',
         ]);
-    
+
         if ($validator->fails()) {
             return $this->error('Validation Error.', 422, $validator->errors());
         }
-    
+
         $terminal_logo_filename = null;
         $background_image_filename = null;
-    
+
         if ($request->hasFile('terminal_logo')) {
             $path = 'assets/uploads/terminal_logos/' . $terminal->terminal_logo;
             if (File::exists($path)) {
@@ -139,7 +132,7 @@ class TerminalController extends Controller
         } else {
             $terminal_logo_filename = $terminal->terminal_logo;
         }
-    
+
         if ($request->hasFile('background_image')) {
             $path = 'assets/uploads/background_images/' . $terminal->background_image;
             if (File::exists($path)) {
@@ -152,7 +145,7 @@ class TerminalController extends Controller
         } else {
             $background_image_filename = $terminal->background_image;
         }
-    
+
         if (array_key_exists('name', $input)) {
             $terminal->name = $input['name'];
         }
@@ -177,32 +170,31 @@ class TerminalController extends Controller
         if (array_key_exists('customer_notification', $input)) {
             $terminal->customer_notification = $input['customer_notification'];
         }
-    
+
         $terminal->background_image = $background_image_filename ?: $terminal->background_image;
         $terminal->terminal_logo = $terminal_logo_filename ?: $terminal->terminal_logo;
         $terminal->save();
-    
+
         return $this->success(new TerminalResource($terminal), "Terminal updated successfully.");
     }
 
     public function destroy($id)
     {
-    
-        $terminal =Terminal::find($id);
+
+        $terminal = Terminal::find($id);
         if ($terminal->terminal_logo) {
-        $path = 'assets/uploads/terminal_logos/'.$terminal->terminal_logo;
-        if (File::exists($path)) {
-         File::delete($path);
-            }
-           }
-           if ($terminal->background_image) {
-            $path = 'assets/uploads/background_images/'.$terminal->background_image;
+            $path = 'assets/uploads/terminal_logos/' . $terminal->terminal_logo;
             if (File::exists($path)) {
-             File::delete($path);
-                }
-               }
+                File::delete($path);
+            }
+        }
+        if ($terminal->background_image) {
+            $path = 'assets/uploads/background_images/' . $terminal->background_image;
+            if (File::exists($path)) {
+                File::delete($path);
+            }
+        }
         $terminal->delete();
         return $this->success([], 'Terminal deleted successfully.');
     }
-
 }
